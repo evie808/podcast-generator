@@ -1,15 +1,16 @@
 #!/bin/bash
+set -e
 
-echo "============="
+echo "===== Podcast Generator ====="
 
-git config --global user.name "${GITHUB_ACTOR}"
+git config --global user.name "${INPUT_NAME}"
 git config --global user.email "${INPUT_EMAIL}"
 git config --global --add safe.directory /github/workspace
 
-python3 /urs/bin/feed.py
+python3 /app/feed.py
 
-git add -A && git commit -m "Update Feed"
+git add music.xml
+git diff --cached --quiet || git commit -m "Update podcast feed"
+git push
 
-git push --set-upstream origin main
-
-echo "============="
+echo "===== Done ====="
